@@ -1,8 +1,9 @@
 import numpy as np
+from src.base_layer import BaseFNNLayer
 
-class Activation:
+class Activation(BaseFNNLayer):
     def __init__(self):
-        pass
+        super().__init__()
 
     def compute_value(self, z):
         raise NotImplementedError
@@ -48,7 +49,7 @@ class SigmoidActivation(Activation):
         super().__init__()
 
     def compute_value(self, z):
-        return 1 / (1 + exp(-z))
+        return 1 / (1 + np.exp(-z))
 
     def compute_gradient(self, z):
         sub = self.compute_value(z)
@@ -60,7 +61,7 @@ class SoftmaxActivation(Activation):
 
     def compute_value(self, z):
         c = np.max(z, axis = 1)
-        A = exp(z - c)
+        A = np.exp(z - c)
         return A/np.sum(A, axis = 1)
    
     def compute_gradient(self, z):
